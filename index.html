@@ -7,7 +7,12 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    html, body {
+      font-family: Arial, sans-serif;
+      height: 100%; width: 100%;
+      overflow: hidden;
+      position: fixed; /* prevents iOS rubber-band scroll */
+    }
 
     #header {
       background: #2c3e6b;
@@ -477,6 +482,7 @@ function endGame() {
 }
 
 // ── Start ──────────────────────────────────────────────────────────────────
+window.addEventListener('resize', () => map.invalidateSize());
 startGame();
 </script>
 </body>
