@@ -99,18 +99,29 @@
     #overlay-box button:hover { background: #eee; }
 
   @media (max-width: 480px) {
-    #header { padding: 0 10px; }
-    #score-display { font-size: 13px; min-width: 80px; }
-    #timer-display { font-size: 13px; min-width: 50px; }
-    #toggles { gap: 4px; }
-    .toggle-track { width: 34px; height: 20px; border-radius: 10px; }
-    .toggle-thumb { width: 14px; height: 14px; }
-    .toggle-track.on .toggle-thumb { left: 17px; }
-    .toggle-row { font-size: 11px; gap: 5px; }
-    #city-badge { font-size: 14px; padding: 5px 12px; }
-    #city-name-he { font-size: 11px; }
+    #header {
+      flex-wrap: wrap;
+      height: auto;
+      padding: 6px 12px 8px;
+      row-gap: 4px;
+    }
+    /* Row 1: score (left) · city badge (center) · timer (right) */
+    #score-display { font-size: 13px; min-width: 0; }
+    #prompt-area { flex: 1; justify-content: center; }
     #prompt-area > span { display: none; }
     #skip-btn { display: none; }
+    #city-badge { font-size: 14px; padding: 5px 12px; }
+    #city-name-he { font-size: 11px; }
+    #timer-display { font-size: 13px; min-width: 0; }
+    /* Row 2: toggles side-by-side, full width, centered */
+    #toggles {
+      order: 10;
+      width: 100%;
+      flex-direction: row;
+      justify-content: center;
+      gap: 20px;
+    }
+    .toggle-row { font-size: 12px; gap: 6px; }
   }
   </style>
 </head>
