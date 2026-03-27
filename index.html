@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Israel City Quiz</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { height: 100%; }
+    html { height: 100%; overflow: hidden; max-width: 100%; }
     body {
       font-family: Arial, sans-serif;
       display: flex; flex-direction: column;
@@ -68,7 +68,7 @@
 
     #timer-display { font-size: 16px; min-width: 60px; text-align: right; }
 
-    #map { flex: 1; min-height: 0; }
+    #map { flex: 1; min-height: 0; overflow: hidden; }
 
     #overlay {
       display: none;
@@ -97,6 +97,20 @@
       font-weight: bold; cursor: pointer;
     }
     #overlay-box button:hover { background: #eee; }
+
+  @media (max-width: 480px) {
+    #header { padding: 0 10px; }
+    #score-display { font-size: 13px; min-width: 80px; }
+    #timer-display { font-size: 13px; min-width: 50px; }
+    .toggle-row span { display: none; }
+    #toggles { gap: 4px; }
+    .toggle-track { width: 34px; height: 20px; border-radius: 10px; }
+    .toggle-thumb { width: 14px; height: 14px; }
+    .toggle-track.on .toggle-thumb { left: 17px; }
+    #city-badge { font-size: 14px; padding: 5px 12px; }
+    #city-name-he { font-size: 11px; }
+    #prompt-area > span { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -256,7 +270,8 @@ const map = L.map('map', {
   zoom: 8,
   minZoom: 7,
   maxZoom: 12,
-  maxBounds: [[27.5, 32.0], [34.0, 37.5]]
+  maxBounds: [[27.5, 32.0], [34.0, 37.5]],
+  bounceAtZoomLimits: false
 });
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
