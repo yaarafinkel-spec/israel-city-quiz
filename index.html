@@ -446,7 +446,26 @@ function skip() {
 // ── Click handler ──────────────────────────────────────────────────────────
 map.on('click', function(e) {
   if (currentIdx >= queue.length) return;
-  const { lat, lng } = e.latlng;
+  let { lat, lng } = e.latlng;
+
+  // In showPoints mode, snap to nearest ghost if unambiguous (within 20px)
+  if (showPoints) {
+    const SNAP_PX = 20;
+    const clickPt = map.latLngToContainerPoint(e.latlng);
+    const nearby = Object.entries(ghostMarkers)
+      .map(([name, marker]) => ({
+        name,
+        px: clickPt.distanceTo(map.latLngToContainerPoint(marker.getLatLng()))
+      }))
+      .filter(x => x.px < SNAP_PX)
+      .sort((a, b) => a.px - b.px);
+    if (nearby.length === 1) {
+      const snapped = CITIES.find(c => c.name_en === nearby[0].name);
+      lat = snapped.lat;
+      lng = snapped.lon;
+    }
+  }
+
   const target = queue[currentIdx];
   const clicked = nearestCity(lat, lng);
 
