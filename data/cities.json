@@ -1,0 +1,772 @@
+[
+  {
+    "name_he": "עכו",
+    "name_en": "Acre",
+    "place": "town",
+    "lat": 32.9281731,
+    "lon": 35.0756378
+  },
+  {
+    "name_he": "עפולה",
+    "name_en": "Afula",
+    "place": "town",
+    "lat": 32.6075587,
+    "lon": 35.2890861
+  },
+  {
+    "name_he": "ערד",
+    "name_en": "Arad",
+    "place": "town",
+    "lat": 31.2612199,
+    "lon": 35.214581
+  },
+  {
+    "name_he": "عرابة",
+    "name_en": "Arraba",
+    "place": "town",
+    "lat": 32.8486259,
+    "lon": 35.3358268
+  },
+  {
+    "name_he": "אשדוד",
+    "name_en": "Ashdod",
+    "place": "town",
+    "lat": 31.7977314,
+    "lon": 34.6529922
+  },
+  {
+    "name_he": "אשקלון",
+    "name_en": "Ashkelon",
+    "place": "town",
+    "lat": 31.6653191,
+    "lon": 34.565044
+  },
+  {
+    "name_he": "עתלית",
+    "name_en": "Atlit",
+    "place": "town",
+    "lat": 32.690712,
+    "lon": 34.9422744
+  },
+  {
+    "name_he": "باقة الغربية",
+    "name_en": "Baqa al Gharbiyya",
+    "place": "town",
+    "lat": 32.4197144,
+    "lon": 35.0428311
+  },
+  {
+    "name_he": "برطعة",
+    "name_en": "Barta`a",
+    "place": "town",
+    "lat": 32.4743359,
+    "lon": 35.090335
+  },
+  {
+    "name_he": "בת ים",
+    "name_en": "Bat Yam",
+    "place": "town",
+    "lat": 32.0154565,
+    "lon": 34.7505283
+  },
+  {
+    "name_he": "באר יעקב",
+    "name_en": "Beer Yaakov",
+    "place": "town",
+    "lat": 31.9443532,
+    "lon": 34.8398648
+  },
+  {
+    "name_he": "באר שבע",
+    "name_en": "Beersheba",
+    "place": "city",
+    "lat": 31.2457442,
+    "lon": 34.7925181
+  },
+  {
+    "name_he": "בית דגן",
+    "name_en": "Beit Dagan",
+    "place": "town",
+    "lat": 32.001945,
+    "lon": 34.8301626
+  },
+  {
+    "name_he": "בית שאן",
+    "name_en": "Beit Shean",
+    "place": "town",
+    "lat": 32.4967519,
+    "lon": 35.4973022
+  },
+  {
+    "name_he": "בית שמש",
+    "name_en": "Beit Shemesh",
+    "place": "town",
+    "lat": 31.746214,
+    "lon": 34.9886825
+  },
+  {
+    "name_he": "البعنة",
+    "name_en": "Bi'ina",
+    "place": "town",
+    "lat": 32.9280587,
+    "lon": 35.272169
+  },
+  {
+    "name_he": "בני ברק",
+    "name_en": "Bnei Brak",
+    "place": "town",
+    "lat": 32.0873899,
+    "lon": 34.8324376
+  },
+  {
+    "name_he": "קיסריה",
+    "name_en": "Caesarea",
+    "place": "town",
+    "lat": 32.5114971,
+    "lon": 34.9057861
+  },
+  {
+    "name_he": "دير الأسد",
+    "name_en": "Deir al Asad",
+    "place": "town",
+    "lat": 32.934772,
+    "lon": 35.2668276
+  },
+  {
+    "name_he": "דימונה",
+    "name_en": "Dimona",
+    "place": "town",
+    "lat": 31.0686612,
+    "lon": 35.0366482
+  },
+  {
+    "name_he": "אילת",
+    "name_en": "Eilat",
+    "place": "city",
+    "lat": 29.5569348,
+    "lon": 34.9497949
+  },
+  {
+    "name_he": "عين ماهل",
+    "name_en": "Ein Mahel",
+    "place": "town",
+    "lat": 32.7233235,
+    "lon": 35.352732
+  },
+  {
+    "name_he": "אלעד",
+    "name_en": "Elad",
+    "place": "town",
+    "lat": 32.0500659,
+    "lon": 34.9521522
+  },
+  {
+    "name_he": "אבן יהודה",
+    "name_en": "Even Yehuda",
+    "place": "town",
+    "lat": 32.2724852,
+    "lon": 34.886767
+  },
+  {
+    "name_he": "גדרה",
+    "name_en": "Gedera",
+    "place": "town",
+    "lat": 31.8117747,
+    "lon": 34.7803882
+  },
+  {
+    "name_he": "גבעת שמואל",
+    "name_en": "Givat Shmuel",
+    "place": "town",
+    "lat": 32.0769463,
+    "lon": 34.8524656
+  },
+  {
+    "name_he": "גבעתיים",
+    "name_en": "Givatayim",
+    "place": "town",
+    "lat": 32.0729606,
+    "lon": 34.8113279
+  },
+  {
+    "name_he": "חדרה",
+    "name_en": "Hadera",
+    "place": "town",
+    "lat": 32.43699,
+    "lon": 34.9198258
+  },
+  {
+    "name_he": "חיפה",
+    "name_en": "Haifa",
+    "place": "city",
+    "lat": 32.8191218,
+    "lon": 34.9983856
+  },
+  {
+    "name_he": "חריש",
+    "name_en": "Harish",
+    "place": "town",
+    "lat": 32.45964,
+    "lon": 35.0510843
+  },
+  {
+    "name_he": "חצור הגלילית",
+    "name_en": "Hatzor HaGlilit",
+    "place": "town",
+    "lat": 32.9791697,
+    "lon": 35.543327
+  },
+  {
+    "name_he": "הרצליה",
+    "name_en": "Herzliya",
+    "place": "town",
+    "lat": 32.1656255,
+    "lon": 34.8469023
+  },
+  {
+    "name_he": "הוד השרון",
+    "name_en": "Hod HaSharon",
+    "place": "town",
+    "lat": 32.1561974,
+    "lon": 34.8930354
+  },
+  {
+    "name_he": "חולון",
+    "name_en": "Holon",
+    "place": "town",
+    "lat": 32.0193121,
+    "lon": 34.7804076
+  },
+  {
+    "name_he": "حورة",
+    "name_en": "Hura",
+    "place": "town",
+    "lat": 31.2972468,
+    "lon": 34.9379061
+  },
+  {
+    "name_he": "جلجولية",
+    "name_en": "Jaljulya",
+    "place": "town",
+    "lat": 32.152285,
+    "lon": 34.9536543
+  },
+  {
+    "name_he": "ירושלים",
+    "name_en": "Jerusalem",
+    "place": "city",
+    "lat": 31.7788472,
+    "lon": 35.2257856
+  },
+  {
+    "name_he": "كعبية طباش حجاجرة",
+    "name_en": "Ka'abiyye-Tabbash-Hajajre",
+    "place": "town",
+    "lat": 32.7488538,
+    "lon": 35.1840965
+  },
+  {
+    "name_he": "قلنسوة‎",
+    "name_en": "Kalanswa",
+    "place": "town",
+    "lat": 32.2848603,
+    "lon": 34.9801701
+  },
+  {
+    "name_he": "כרמיאל",
+    "name_en": "Karmiel",
+    "place": "town",
+    "lat": 32.9159104,
+    "lon": 35.293429
+  },
+  {
+    "name_he": "קציר",
+    "name_en": "Katzir",
+    "place": "town",
+    "lat": 32.4886297,
+    "lon": 35.1016891
+  },
+  {
+    "name_he": "קצרין",
+    "name_en": "Katzrin",
+    "place": "town",
+    "lat": 32.9920262,
+    "lon": 35.6877004
+  },
+  {
+    "name_he": "كفر كنا",
+    "name_en": "Kfar Kanna",
+    "place": "town",
+    "lat": 32.7459862,
+    "lon": 35.3398025
+  },
+  {
+    "name_he": "كفر قرع",
+    "name_en": "Kfar Kara",
+    "place": "city",
+    "lat": 32.5029914,
+    "lon": 35.0504995
+  },
+  {
+    "name_he": "كفر قاسم‎",
+    "name_en": "Kfar Kasim",
+    "place": "town",
+    "lat": 32.1152014,
+    "lon": 34.9752609
+  },
+  {
+    "name_he": "כפר סבא",
+    "name_en": "Kfar Saba",
+    "place": "town",
+    "lat": 32.1773471,
+    "lon": 34.907459
+  },
+  {
+    "name_he": "קריית גת",
+    "name_en": "Kiryat Gat",
+    "place": "town",
+    "lat": 31.6093998,
+    "lon": 34.7711983
+  },
+  {
+    "name_he": "קרית מלאכי",
+    "name_en": "Kiryat Malachi",
+    "place": "town",
+    "lat": 31.7316015,
+    "lon": 34.7446145
+  },
+  {
+    "name_he": "קריית מוצקין",
+    "name_en": "Kiryat Motzkin",
+    "place": "town",
+    "lat": 32.8363747,
+    "lon": 35.0752109
+  },
+  {
+    "name_he": "קריית אונו",
+    "name_en": "Kiryat Ono",
+    "place": "town",
+    "lat": 32.0591691,
+    "lon": 34.8594303
+  },
+  {
+    "name_he": "קרית שמונה",
+    "name_en": "Kiryat Shmona",
+    "place": "town",
+    "lat": 33.2074733,
+    "lon": 35.5707828
+  },
+  {
+    "name_he": "קריית טבעון",
+    "name_en": "Kiryat Tivon",
+    "place": "town",
+    "lat": 32.7332039,
+    "lon": 35.1453385
+  },
+  {
+    "name_he": "קריית ים",
+    "name_en": "Kiryat Yam",
+    "place": "town",
+    "lat": 32.8502229,
+    "lon": 35.0703245
+  },
+  {
+    "name_he": "כוכב יאיר צור יגאל",
+    "name_en": "Kochav Yair Tzur Yigal",
+    "place": "town",
+    "lat": 32.2201627,
+    "lon": 34.993953
+  },
+  {
+    "name_he": "לוד",
+    "name_en": "Lod",
+    "place": "town",
+    "lat": 31.9489012,
+    "lon": 34.8884857
+  },
+  {
+    "name_he": "מעלות תרשיחא",
+    "name_en": "Maalot Tarshiha",
+    "place": "town",
+    "lat": 33.0157394,
+    "lon": 35.2759666
+  },
+  {
+    "name_he": "المشهد",
+    "name_en": "Mashhad",
+    "place": "town",
+    "lat": 32.7401998,
+    "lon": 35.3245126
+  },
+  {
+    "name_he": "מזכרת בתיה",
+    "name_en": "Mazkeret Batya",
+    "place": "town",
+    "lat": 31.8514378,
+    "lon": 34.8411635
+  },
+  {
+    "name_he": "מיתר",
+    "name_en": "Meitar",
+    "place": "town",
+    "lat": 31.3270854,
+    "lon": 34.9384389
+  },
+  {
+    "name_he": "מבשרת ציון",
+    "name_en": "Mevaseret Tsiyon",
+    "place": "town",
+    "lat": 31.8057198,
+    "lon": 35.152731
+  },
+  {
+    "name_he": "מגדל העמק",
+    "name_en": "Migdal HaEmeq",
+    "place": "town",
+    "lat": 32.6765744,
+    "lon": 35.2413237
+  },
+  {
+    "name_he": "מצפה רמון",
+    "name_en": "Mitspe Ramon",
+    "place": "town",
+    "lat": 30.6119687,
+    "lon": 34.8012169
+  },
+  {
+    "name_he": "מודיעין-מכבים-רעות",
+    "name_en": "Modiin-Maccabim-Reut",
+    "place": "town",
+    "lat": 31.9085744,
+    "lon": 35.0069297
+  },
+  {
+    "name_he": "נהריה",
+    "name_en": "Nahariyya",
+    "place": "town",
+    "lat": 33.006306,
+    "lon": 35.0945579
+  },
+  {
+    "name_he": "نحف",
+    "name_en": "Nahf",
+    "place": "town",
+    "lat": 32.9345686,
+    "lon": 35.31763
+  },
+  {
+    "name_he": "الناصرة",
+    "name_en": "Nazareth",
+    "place": "town",
+    "lat": 32.7066301,
+    "lon": 35.3048161
+  },
+  {
+    "name_he": "נשר",
+    "name_en": "Nesher",
+    "place": "town",
+    "lat": 32.7708797,
+    "lon": 35.0381249
+  },
+  {
+    "name_he": "נס ציונה",
+    "name_en": "Ness Ziona",
+    "place": "town",
+    "lat": 31.9295577,
+    "lon": 34.7990609
+  },
+  {
+    "name_he": "נתניה",
+    "name_en": "Netanya",
+    "place": "town",
+    "lat": 32.3286181,
+    "lon": 34.8566246
+  },
+  {
+    "name_he": "נתיבות",
+    "name_en": "Netivot",
+    "place": "town",
+    "lat": 31.4213546,
+    "lon": 34.5884252
+  },
+  {
+    "name_he": "נוף הגליל",
+    "name_en": "Nof HaGalil",
+    "place": "town",
+    "lat": 32.7023065,
+    "lon": 35.3183216
+  },
+  {
+    "name_he": "אופקים",
+    "name_en": "Ofakim",
+    "place": "town",
+    "lat": 31.3125831,
+    "lon": 34.6208537
+  },
+  {
+    "name_he": "עומר",
+    "name_en": "Omer",
+    "place": "town",
+    "lat": 31.2659365,
+    "lon": 34.847616
+  },
+  {
+    "name_he": "אור עקיבא",
+    "name_en": "Or Akiva",
+    "place": "town",
+    "lat": 32.5090151,
+    "lon": 34.9195677
+  },
+  {
+    "name_he": "אור יהודה",
+    "name_en": "Or Yehuda",
+    "place": "town",
+    "lat": 32.0270045,
+    "lon": 34.8629898
+  },
+  {
+    "name_he": "פרדס חנה-כרכור",
+    "name_en": "Pardes Hana-Karkur",
+    "place": "town",
+    "lat": 32.4749962,
+    "lon": 34.975139
+  },
+  {
+    "name_he": "פתח תקווה",
+    "name_en": "Petah Tikva",
+    "place": "town",
+    "lat": 32.0877639,
+    "lon": 34.8859985
+  },
+  {
+    "name_he": "קרית אתא",
+    "name_en": "Qiryat Ata",
+    "place": "town",
+    "lat": 32.8115853,
+    "lon": 35.1163747
+  },
+  {
+    "name_he": "קריית ביאליק",
+    "name_en": "Qiryat Bialik",
+    "place": "town",
+    "lat": 32.8285812,
+    "lon": 35.0844915
+  },
+  {
+    "name_he": "רעננה",
+    "name_en": "Raanana",
+    "place": "town",
+    "lat": 32.1860244,
+    "lon": 34.8678359
+  },
+  {
+    "name_he": "رهط",
+    "name_en": "Rahat",
+    "place": "town",
+    "lat": 31.3933637,
+    "lon": 34.7546784
+  },
+  {
+    "name_he": "רמת גן",
+    "name_en": "Ramat Gan",
+    "place": "town",
+    "lat": 32.0686867,
+    "lon": 34.8246812
+  },
+  {
+    "name_he": "רמת השרון",
+    "name_en": "Ramat HaSharon",
+    "place": "town",
+    "lat": 32.1431276,
+    "lon": 34.8380853
+  },
+  {
+    "name_he": "רמלה",
+    "name_en": "Ramla",
+    "place": "town",
+    "lat": 31.9279988,
+    "lon": 34.8623473
+  },
+  {
+    "name_he": "רחובות",
+    "name_en": "Rehovot",
+    "place": "town",
+    "lat": 31.8952532,
+    "lon": 34.8105616
+  },
+  {
+    "name_he": "רכסים",
+    "name_en": "Rekhasim",
+    "place": "town",
+    "lat": 32.7509558,
+    "lon": 35.1013589
+  },
+  {
+    "name_he": "ראשון לציון",
+    "name_en": "Rishon LeZion",
+    "place": "town",
+    "lat": 31.9635712,
+    "lon": 34.8101149
+  },
+  {
+    "name_he": "ראש העין",
+    "name_en": "Rosh HaAyin",
+    "place": "town",
+    "lat": 32.0952929,
+    "lon": 34.9533225
+  },
+  {
+    "name_he": "ראש פינה",
+    "name_en": "Rosh Pina",
+    "place": "town",
+    "lat": 32.968215,
+    "lon": 35.5438245
+  },
+  {
+    "name_he": "צפת",
+    "name_en": "Safed",
+    "place": "town",
+    "lat": 32.9646301,
+    "lon": 35.502451
+  },
+  {
+    "name_he": "سخنين",
+    "name_en": "Sakhnin",
+    "place": "town",
+    "lat": 32.8638052,
+    "lon": 35.3023184
+  },
+  {
+    "name_he": "סביון",
+    "name_en": "Savyon",
+    "place": "town",
+    "lat": 32.0475371,
+    "lon": 34.8799172
+  },
+  {
+    "name_he": "שדרות",
+    "name_en": "Sderot",
+    "place": "town",
+    "lat": 31.526474,
+    "lon": 34.5969696
+  },
+  {
+    "name_he": "شفا عمرو",
+    "name_en": "Shefaram",
+    "place": "town",
+    "lat": 32.8045765,
+    "lon": 35.1723866
+  },
+  {
+    "name_he": "שלומי",
+    "name_en": "Shlomi",
+    "place": "town",
+    "lat": 33.0760504,
+    "lon": 35.1485842
+  },
+  {
+    "name_he": "שוהם",
+    "name_en": "Shoham",
+    "place": "town",
+    "lat": 32.0004845,
+    "lon": 34.9465419
+  },
+  {
+    "name_he": "الطيبة",
+    "name_en": "Taibe",
+    "place": "town",
+    "lat": 32.2671249,
+    "lon": 35.0089029
+  },
+  {
+    "name_he": "تل السبع",
+    "name_en": "Tal as-Sabi",
+    "place": "town",
+    "lat": 31.2456487,
+    "lon": 34.8577683
+  },
+  {
+    "name_he": "طمرة",
+    "name_en": "Tamra",
+    "place": "town",
+    "lat": 32.8534876,
+    "lon": 35.1978748
+  },
+  {
+    "name_he": "תל אביב–יפו",
+    "name_en": "Tel Aviv",
+    "place": "city",
+    "lat": 32.0852997,
+    "lon": 34.7818064
+  },
+  {
+    "name_he": "טבריה",
+    "name_en": "Tiberias",
+    "place": "town",
+    "lat": 32.7938522,
+    "lon": 35.5328566
+  },
+  {
+    "name_he": "الطيرة",
+    "name_en": "Tira",
+    "place": "town",
+    "lat": 32.2346856,
+    "lon": 34.9544553
+  },
+  {
+    "name_he": "טירת כרמל",
+    "name_en": "Tirat Karmel",
+    "place": "town",
+    "lat": 32.7613834,
+    "lon": 34.9715506
+  },
+  {
+    "name_he": "أم الفحم",
+    "name_en": "Umm al-Fahm",
+    "place": "town",
+    "lat": 32.5158385,
+    "lon": 35.152491
+  },
+  {
+    "name_he": "يافة الناصرة",
+    "name_en": "Yafia",
+    "place": "town",
+    "lat": 32.6865923,
+    "lon": 35.2772128
+  },
+  {
+    "name_he": "יבנה",
+    "name_en": "Yavne",
+    "place": "town",
+    "lat": 31.8768863,
+    "lon": 34.7382974
+  },
+  {
+    "name_he": "יהוד מונוסון",
+    "name_en": "Yehud Monosson",
+    "place": "town",
+    "lat": 32.0331756,
+    "lon": 34.8907527
+  },
+  {
+    "name_he": "ירוחם",
+    "name_en": "Yerucham",
+    "place": "town",
+    "lat": 30.9888033,
+    "lon": 34.9250975
+  },
+  {
+    "name_he": "יוקנעם עילית",
+    "name_en": "Yoqneam Illit",
+    "place": "town",
+    "lat": 32.6480601,
+    "lon": 35.0943545
+  },
+  {
+    "name_he": "זכרון יעקב",
+    "name_en": "Zikhron Yaakov",
+    "place": "town",
+    "lat": 32.5711587,
+    "lon": 34.9529966
+  }
+]

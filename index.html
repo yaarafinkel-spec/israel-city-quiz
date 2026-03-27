@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Israel City Quiz</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+    #header {
+      background: #2c3e6b;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 64px;
+      flex-shrink: 0;
+      z-index: 1000;
+    }
+
+    #score-display { font-size: 15px; min-width: 110px; }
+
+    .toggle-row {
+      display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; user-select: none;
+    }
+    .toggle-track {
+      width: 40px; height: 22px; background: #556; border-radius: 11px;
+      position: relative; transition: background 0.2s; cursor: pointer; flex-shrink: 0;
+    }
+    .toggle-track.on { background: #4a90d9; }
+    .toggle-thumb {
+      position: absolute; top: 3px; left: 3px;
+      width: 16px; height: 16px; background: white; border-radius: 50%;
+      transition: left 0.2s;
+    }
+    .toggle-track.on .toggle-thumb { left: 21px; }
+    #toggles { display: flex; flex-direction: column; gap: 6px; }
+
+    #prompt-area { display: flex; align-items: center; gap: 10px; font-size: 16px; }
+
+    #city-badge {
+      background: white;
+      color: #1a2a50;
+      padding: 6px 18px;
+      border-radius: 22px;
+      font-weight: bold;
+      font-size: 17px;
+      text-align: center;
+      line-height: 1.3;
+    }
+    #city-name-he { display: block; font-size: 12px; font-weight: normal; color: #555; }
+
+    #skip-btn {
+      background: none; border: none; color: white;
+      cursor: pointer; font-size: 20px; padding: 4px 8px;
+      opacity: 0.8;
+    }
+    #skip-btn:hover { opacity: 1; }
+
+    #timer-display { font-size: 16px; min-width: 60px; text-align: right; }
+
+    #map { flex: 1; }
+
+    #overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    #overlay.visible { display: flex; }
+
+    #overlay-box {
+      background: #2c3e6b;
+      color: white;
+      padding: 40px 50px;
+      border-radius: 14px;
+      text-align: center;
+      min-width: 300px;
+    }
+    #overlay-box h2 { font-size: 28px; margin-bottom: 16px; }
+    #overlay-box p { font-size: 18px; margin-bottom: 24px; }
+    #overlay-box button {
+      background: white; color: #2c3e6b;
+      border: none; padding: 10px 28px;
+      border-radius: 20px; font-size: 16px;
+      font-weight: bold; cursor: pointer;
+    }
+    #overlay-box button:hover { background: #eee; }
+  </style>
+</head>
+<body>
+
+<div id="header">
+  <div id="score-display">0 / 110 | 0%</div>
+  <div id="toggles">
+    <div class="toggle-row" id="difficulty-toggle" title="Switch between all cities and 25 major cities">
+      <span>All cities</span>
+      <div class="toggle-track" id="diff-track"><div class="toggle-thumb"></div></div>
+      <span>Easy</span>
+    </div>
+    <div class="toggle-row" id="points-toggle" title="Show all city locations as empty dots">
+      <span>Show points</span>
+      <div class="toggle-track" id="points-track"><div class="toggle-thumb"></div></div>
+    </div>
+  </div>
+  <div id="prompt-area">
+    <span>Click on</span>
+    <div id="city-badge">
+      <span id="city-name-en">—</span>
+      <span id="city-name-he"></span>
+    </div>
+    <button id="skip-btn" title="Skip this city">▶|</button>
+  </div>
+  <div id="timer-display">00:00</div>
+</div>
+
+<div id="map"></div>
+
+<div id="overlay">
+  <div id="overlay-box">
+    <h2>Quiz Complete!</h2>
+    <p id="final-score"></p>
+    <button onclick="startGame()">Play Again</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const CITIES = [
+  {"name_he":"עכו","name_en":"Acre","lat":32.9281731,"lon":35.0756378},
+  {"name_he":"עפולה","name_en":"Afula","lat":32.6075587,"lon":35.2890861},
+  {"name_he":"ערד","name_en":"Arad","lat":31.2612199,"lon":35.214581},
+  {"name_he":"عرابة","name_en":"Arraba","lat":32.8486259,"lon":35.3358268},
+  {"name_he":"אשדוד","name_en":"Ashdod","lat":31.7977314,"lon":34.6529922},
+  {"name_he":"אשקלון","name_en":"Ashkelon","lat":31.6653191,"lon":34.565044},
+  {"name_he":"עתלית","name_en":"Atlit","lat":32.690712,"lon":34.9422744},
+  {"name_he":"باقة الغربية","name_en":"Baqa al Gharbiyya","lat":32.4197144,"lon":35.0428311},
+  {"name_he":"برطعة","name_en":"Barta'a","lat":32.4743359,"lon":35.090335},
+  {"name_he":"בת ים","name_en":"Bat Yam","lat":32.0154565,"lon":34.7505283},
+  {"name_he":"באר יעקב","name_en":"Beer Yaakov","lat":31.9443532,"lon":34.8398648},
+  {"name_he":"באר שבע","name_en":"Beersheba","lat":31.2457442,"lon":34.7925181},
+  {"name_he":"בית דגן","name_en":"Beit Dagan","lat":32.001945,"lon":34.8301626},
+  {"name_he":"בית שאן","name_en":"Beit Shean","lat":32.4967519,"lon":35.4973022},
+  {"name_he":"בית שמש","name_en":"Beit Shemesh","lat":31.746214,"lon":34.9886825},
+  {"name_he":"البعنة","name_en":"Bi'ina","lat":32.9280587,"lon":35.272169},
+  {"name_he":"בני ברק","name_en":"Bnei Brak","lat":32.0873899,"lon":34.8324376},
+  {"name_he":"קיסריה","name_en":"Caesarea","lat":32.5114971,"lon":34.9057861},
+  {"name_he":"دير الأسد","name_en":"Deir al Asad","lat":32.934772,"lon":35.2668276},
+  {"name_he":"דימונה","name_en":"Dimona","lat":31.0686612,"lon":35.0366482},
+  {"name_he":"אילת","name_en":"Eilat","lat":29.5569348,"lon":34.9497949},
+  {"name_he":"عين ماهل","name_en":"Ein Mahel","lat":32.7233235,"lon":35.352732},
+  {"name_he":"אלעד","name_en":"Elad","lat":32.0500659,"lon":34.9521522},
+  {"name_he":"אבן יהודה","name_en":"Even Yehuda","lat":32.2724852,"lon":34.886767},
+  {"name_he":"גדרה","name_en":"Gedera","lat":31.8117747,"lon":34.7803882},
+  {"name_he":"גבעת שמואל","name_en":"Givat Shmuel","lat":32.0769463,"lon":34.8524656},
+  {"name_he":"גבעתיים","name_en":"Givatayim","lat":32.0729606,"lon":34.8113279},
+  {"name_he":"חדרה","name_en":"Hadera","lat":32.43699,"lon":34.9198258},
+  {"name_he":"חיפה","name_en":"Haifa","lat":32.8191218,"lon":34.9983856},
+  {"name_he":"חריש","name_en":"Harish","lat":32.45964,"lon":35.0510843},
+  {"name_he":"חצור הגלילית","name_en":"Hatzor HaGlilit","lat":32.9791697,"lon":35.543327},
+  {"name_he":"הרצליה","name_en":"Herzliya","lat":32.1656255,"lon":34.8469023},
+  {"name_he":"הוד השרון","name_en":"Hod HaSharon","lat":32.1561974,"lon":34.8930354},
+  {"name_he":"חולון","name_en":"Holon","lat":32.0193121,"lon":34.7804076},
+  {"name_he":"حورة","name_en":"Hura","lat":31.2972468,"lon":34.9379061},
+  {"name_he":"جلجولية","name_en":"Jaljulya","lat":32.152285,"lon":34.9536543},
+  {"name_he":"ירושלים","name_en":"Jerusalem","lat":31.7788472,"lon":35.2257856},
+  {"name_he":"كعبية طباش حجاجرة","name_en":"Ka'abiyye-Tabbash-Hajajre","lat":32.7488538,"lon":35.1840965},
+  {"name_he":"قلنسوة","name_en":"Kalanswa","lat":32.2848603,"lon":34.9801701},
+  {"name_he":"כרמיאל","name_en":"Karmiel","lat":32.9159104,"lon":35.293429},
+  {"name_he":"קציר","name_en":"Katzir","lat":32.4886297,"lon":35.1016891},
+  {"name_he":"קצרין","name_en":"Katzrin","lat":32.9920262,"lon":35.6877004},
+  {"name_he":"كفر كنا","name_en":"Kfar Kanna","lat":32.7459862,"lon":35.3398025},
+  {"name_he":"كفر قرع","name_en":"Kfar Kara","lat":32.5029914,"lon":35.0504995},
+  {"name_he":"كفر قاسم","name_en":"Kfar Kasim","lat":32.1152014,"lon":34.9752609},
+  {"name_he":"כפר סבא","name_en":"Kfar Saba","lat":32.1773471,"lon":34.907459},
+  {"name_he":"קריית גת","name_en":"Kiryat Gat","lat":31.6093998,"lon":34.7711983},
+  {"name_he":"קרית מלאכי","name_en":"Kiryat Malachi","lat":31.7316015,"lon":34.7446145},
+  {"name_he":"קריית מוצקין","name_en":"Kiryat Motzkin","lat":32.8363747,"lon":35.0752109},
+  {"name_he":"קריית אונו","name_en":"Kiryat Ono","lat":32.0591691,"lon":34.8594303},
+  {"name_he":"קרית שמונה","name_en":"Kiryat Shmona","lat":33.2074733,"lon":35.5707828},
+  {"name_he":"קריית טבעון","name_en":"Kiryat Tivon","lat":32.7332039,"lon":35.1453385},
+  {"name_he":"קריית ים","name_en":"Kiryat Yam","lat":32.8502229,"lon":35.0703245},
+  {"name_he":"כוכב יאיר צור יגאל","name_en":"Kochav Yair Tzur Yigal","lat":32.2201627,"lon":34.993953},
+  {"name_he":"לוד","name_en":"Lod","lat":31.9489012,"lon":34.8884857},
+  {"name_he":"מעלות תרשיחא","name_en":"Maalot Tarshiha","lat":33.0157394,"lon":35.2759666},
+  {"name_he":"المشهد","name_en":"Mashhad","lat":32.7401998,"lon":35.3245126},
+  {"name_he":"מזכרת בתיה","name_en":"Mazkeret Batya","lat":31.8514378,"lon":34.8411635},
+  {"name_he":"מיתר","name_en":"Meitar","lat":31.3270854,"lon":34.9384389},
+  {"name_he":"מבשרת ציון","name_en":"Mevaseret Tsiyon","lat":31.8057198,"lon":35.152731},
+  {"name_he":"מגדל העמק","name_en":"Migdal HaEmeq","lat":32.6765744,"lon":35.2413237},
+  {"name_he":"מצפה רמון","name_en":"Mitspe Ramon","lat":30.6119687,"lon":34.8012169},
+  {"name_he":"מודיעין-מכבים-רעות","name_en":"Modiin-Maccabim-Reut","lat":31.9085744,"lon":35.0069297},
+  {"name_he":"נהריה","name_en":"Nahariyya","lat":33.006306,"lon":35.0945579},
+  {"name_he":"نحف","name_en":"Nahf","lat":32.9345686,"lon":35.31763},
+  {"name_he":"الناصرة","name_en":"Nazareth","lat":32.7066301,"lon":35.3048161},
+  {"name_he":"נשר","name_en":"Nesher","lat":32.7708797,"lon":35.0381249},
+  {"name_he":"נס ציונה","name_en":"Ness Ziona","lat":31.9295577,"lon":34.7990609},
+  {"name_he":"נתניה","name_en":"Netanya","lat":32.3286181,"lon":34.8566246},
+  {"name_he":"נתיבות","name_en":"Netivot","lat":31.4213546,"lon":34.5884252},
+  {"name_he":"נוף הגליל","name_en":"Nof HaGalil","lat":32.7023065,"lon":35.3183216},
+  {"name_he":"אופקים","name_en":"Ofakim","lat":31.3125831,"lon":34.6208537},
+  {"name_he":"עומר","name_en":"Omer","lat":31.2659365,"lon":34.847616},
+  {"name_he":"אור עקיבא","name_en":"Or Akiva","lat":32.5090151,"lon":34.9195677},
+  {"name_he":"אור יהודה","name_en":"Or Yehuda","lat":32.0270045,"lon":34.8629898},
+  {"name_he":"פרדס חנה-כרכור","name_en":"Pardes Hana-Karkur","lat":32.4749962,"lon":34.975139},
+  {"name_he":"פתח תקווה","name_en":"Petah Tikva","lat":32.0877639,"lon":34.8859985},
+  {"name_he":"קרית אתא","name_en":"Qiryat Ata","lat":32.8115853,"lon":35.1163747},
+  {"name_he":"קריית ביאליק","name_en":"Qiryat Bialik","lat":32.8285812,"lon":35.0844915},
+  {"name_he":"רעננה","name_en":"Raanana","lat":32.1860244,"lon":34.8678359},
+  {"name_he":"رهط","name_en":"Rahat","lat":31.3933637,"lon":34.7546784},
+  {"name_he":"רמת גן","name_en":"Ramat Gan","lat":32.0686867,"lon":34.8246812},
+  {"name_he":"רמת השרון","name_en":"Ramat HaSharon","lat":32.1431276,"lon":34.8380853},
+  {"name_he":"רמלה","name_en":"Ramla","lat":31.9279988,"lon":34.8623473},
+  {"name_he":"רחובות","name_en":"Rehovot","lat":31.8952532,"lon":34.8105616},
+  {"name_he":"רכסים","name_en":"Rekhasim","lat":32.7509558,"lon":35.1013589},
+  {"name_he":"ראשון לציון","name_en":"Rishon LeZion","lat":31.9635712,"lon":34.8101149},
+  {"name_he":"ראש העין","name_en":"Rosh HaAyin","lat":32.0952929,"lon":34.9533225},
+  {"name_he":"ראש פינה","name_en":"Rosh Pina","lat":32.968215,"lon":35.5438245},
+  {"name_he":"צפת","name_en":"Safed","lat":32.9646301,"lon":35.502451},
+  {"name_he":"سخنين","name_en":"Sakhnin","lat":32.8638052,"lon":35.3023184},
+  {"name_he":"סביון","name_en":"Savyon","lat":32.0475371,"lon":34.8799172},
+  {"name_he":"שדרות","name_en":"Sderot","lat":31.526474,"lon":34.5969696},
+  {"name_he":"شفا عمرو","name_en":"Shefaram","lat":32.8045765,"lon":35.1723866},
+  {"name_he":"שלומי","name_en":"Shlomi","lat":33.0760504,"lon":35.1485842},
+  {"name_he":"שוהם","name_en":"Shoham","lat":32.0004845,"lon":34.9465419},
+  {"name_he":"الطيبة","name_en":"Taibe","lat":32.2671249,"lon":35.0089029},
+  {"name_he":"تل السبع","name_en":"Tal as-Sabi","lat":31.2456487,"lon":34.8577683},
+  {"name_he":"طمرة","name_en":"Tamra","lat":32.8534876,"lon":35.1978748},
+  {"name_he":"תל אביב–יפו","name_en":"Tel Aviv","lat":32.0852997,"lon":34.7818064},
+  {"name_he":"טבריה","name_en":"Tiberias","lat":32.7938522,"lon":35.5328566},
+  {"name_he":"الطيرة","name_en":"Tira","lat":32.2346856,"lon":34.9544553},
+  {"name_he":"טירת כרמל","name_en":"Tirat Karmel","lat":32.7613834,"lon":34.9715506},
+  {"name_he":"أم الفحم","name_en":"Umm al-Fahm","lat":32.5158385,"lon":35.152491},
+  {"name_he":"يافة الناصرة","name_en":"Yafia","lat":32.6865923,"lon":35.2772128},
+  {"name_he":"יבנה","name_en":"Yavne","lat":31.8768863,"lon":34.7382974},
+  {"name_he":"יהוד מונוסון","name_en":"Yehud Monosson","lat":32.0331756,"lon":34.8907527},
+  {"name_he":"ירוחם","name_en":"Yerucham","lat":30.9888033,"lon":34.9250975},
+  {"name_he":"יוקנעם עילית","name_en":"Yoqneam Illit","lat":32.6480601,"lon":35.0943545},
+  {"name_he":"זכרון יעקב","name_en":"Zikhron Yaakov","lat":32.5711587,"lon":34.9529966}
+];
+
+// ── Map setup ──────────────────────────────────────────────────────────────
+const map = L.map('map', {
+  center: [31.5, 35.0],
+  zoom: 8,
+  minZoom: 7,
+  maxZoom: 12,
+  maxBounds: [[27.5, 32.0], [34.0, 37.5]]
+});
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap &copy; CARTO',
+  subdomains: 'abcd'
+}).addTo(map);
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371, toRad = x => x * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function nearestCity(lat, lon) {
+  return CITIES.reduce((best, city) => {
+    const d = haversineKm(lat, lon, city.lat, city.lon);
+    return d < best.dist ? { city, dist: d } : best;
+  }, { city: null, dist: Infinity }).city;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+// ── Easy mode city list ────────────────────────────────────────────────────
+const EASY_CITIES = new Set([
+  'Tel Aviv','Jerusalem','Haifa','Beersheba','Eilat',
+  'Netanya','Rishon LeZion','Petah Tikva','Ashdod','Ashkelon',
+  'Rehovot','Holon','Bnei Brak','Bat Yam','Ramat Gan',
+  'Herzliya','Kfar Saba','Hadera','Nahariyya','Acre',
+  'Tiberias','Safed','Kiryat Shmona','Nazareth','Dimona'
+]);
+
+// ── Game state ─────────────────────────────────────────────────────────────
+let queue, currentIdx, attempts, score, timerInterval, elapsedSec;
+let easyMode = false;
+let showPoints = false;
+const markers = {};      // cityName -> answered L.circleMarker
+const ghostMarkers = {}; // cityName -> unanswered ghost L.circleMarker
+
+// Color by attempt number (0-indexed: attempt 0 = first try)
+const ATTEMPT_COLORS = ['#ffffff', '#f5d060', '#f5a020', '#e8662a', '#e74c3c'];
+const FAILED_COLOR = '#cccccc';
+const MAX_ATTEMPTS = 5;
+
+function renderGhosts() {
+  // Remove existing ghosts
+  Object.values(ghostMarkers).forEach(m => map.removeLayer(m));
+  Object.keys(ghostMarkers).forEach(k => delete ghostMarkers[k]);
+  if (!showPoints) return;
+  // Add ghost for every city in queue that hasn't been answered yet
+  queue.slice(currentIdx).forEach(city => {
+    if (markers[city.name_en]) return; // already answered
+    const m = L.circleMarker([city.lat, city.lon], {
+      radius: 5, color: '#888', weight: 1.2,
+      fillColor: 'white', fillOpacity: 0.15
+    }).addTo(map);
+    ghostMarkers[city.name_en] = m;
+  });
+}
+
+function startGame() {
+  // Clear old markers
+  Object.values(markers).forEach(m => map.removeLayer(m));
+  Object.keys(markers).forEach(k => delete markers[k]);
+  Object.values(ghostMarkers).forEach(m => map.removeLayer(m));
+  Object.keys(ghostMarkers).forEach(k => delete ghostMarkers[k]);
+
+  const pool = easyMode ? CITIES.filter(c => EASY_CITIES.has(c.name_en)) : CITIES;
+  queue = shuffle(pool);
+  currentIdx = 0;
+  score = { first: 0, second: 0, other: 0, failed: 0 };
+  elapsedSec = 0;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    elapsedSec++;
+    document.getElementById('timer-display').textContent =
+      pad(Math.floor(elapsedSec / 60)) + ':' + pad(elapsedSec % 60);
+  }, 1000);
+
+  document.getElementById('overlay').classList.remove('visible');
+  loadQuestion();
+  renderGhosts();
+}
+
+function loadQuestion() {
+  if (currentIdx >= queue.length) { endGame(); return; }
+  attempts = 0;
+  const city = queue[currentIdx];
+  document.getElementById('city-name-en').textContent = city.name_en;
+  document.getElementById('city-name-he').textContent = city.name_he;
+  updateScoreDisplay();
+}
+
+function updateScoreDisplay() {
+  const answered = score.first + score.second + score.failed;
+  const pct = answered === 0 ? 0 : Math.round((score.first + score.second) / answered * 100);
+  document.getElementById('score-display').textContent =
+    answered + ' / ' + queue.length + ' | ' + pct + '%';
+}
+
+function placeMarker(city, color, radius = 10) {
+  if (ghostMarkers[city.name_en]) {
+    map.removeLayer(ghostMarkers[city.name_en]);
+    delete ghostMarkers[city.name_en];
+  }
+  if (markers[city.name_en]) map.removeLayer(markers[city.name_en]);
+  const m = L.circleMarker([city.lat, city.lon], {
+    radius,
+    color: '#333',
+    weight: 1.5,
+    fillColor: color,
+    fillOpacity: 0.95
+  }).addTo(map);
+  m.bindTooltip(city.name_en, { permanent: false });
+  markers[city.name_en] = m;
+  return m;
+}
+
+function showDistance(lat, lon, distKm) {
+  const label = distKm < 1
+    ? '< 1 km'
+    : Math.round(distKm) + ' km away';
+  const popup = L.popup({ closeButton: false, autoClose: false, className: 'dist-popup' })
+    .setLatLng([lat, lon])
+    .setContent(label)
+    .openOn(map);
+  setTimeout(() => map.closePopup(popup), 1500);
+}
+
+function flashWrong(lat, lon) {
+  const m = L.circleMarker([lat, lon], {
+    radius: 8, color: '#e74c3c', weight: 2,
+    fillColor: '#e74c3c', fillOpacity: 0.8
+  }).addTo(map);
+  setTimeout(() => map.removeLayer(m), 600);
+}
+
+function advance() {
+  currentIdx++;
+  setTimeout(loadQuestion, 400);
+}
+
+function skip() {
+  const city = queue[currentIdx];
+  score.failed++;
+  placeMarker(city, COLORS.failed);
+  advance();
+}
+
+// ── Click handler ──────────────────────────────────────────────────────────
+map.on('click', function(e) {
+  if (currentIdx >= queue.length) return;
+  const { lat, lng } = e.latlng;
+  const target = queue[currentIdx];
+  const clicked = nearestCity(lat, lng);
+
+  if (clicked.name_en === target.name_en) {
+    // Correct
+    const color = ATTEMPT_COLORS[Math.min(attempts, ATTEMPT_COLORS.length - 1)];
+    if (attempts === 0) score.first++;
+    else if (attempts === 1) score.second++;
+    else score.other++;
+    placeMarker(target, color, 10);
+    advance();
+  } else {
+    // Wrong — show distance and flash
+    const dist = haversineKm(lat, lng, target.lat, target.lon);
+    flashWrong(lat, lng);
+    showDistance(lat, lng, dist);
+    attempts++;
+    if (attempts >= MAX_ATTEMPTS) {
+      score.failed++;
+      const m = placeMarker(target, '#e74c3c', 12);
+      setTimeout(() => {
+        map.removeLayer(m);
+        placeMarker(target, FAILED_COLOR, 10);
+      }, 700);
+      advance();
+    }
+  }
+  updateScoreDisplay();
+});
+
+document.getElementById('skip-btn').addEventListener('click', skip);
+
+// ── Toggles ────────────────────────────────────────────────────────────────
+document.getElementById('difficulty-toggle').addEventListener('click', () => {
+  easyMode = !easyMode;
+  document.getElementById('diff-track').classList.toggle('on', easyMode);
+  startGame();
+});
+
+document.getElementById('points-toggle').addEventListener('click', () => {
+  showPoints = !showPoints;
+  document.getElementById('points-track').classList.toggle('on', showPoints);
+  renderGhosts();
+});
+
+// ── End game ───────────────────────────────────────────────────────────────
+function endGame() {
+  clearInterval(timerInterval);
+  const total = queue.length;
+  const correct = score.first + score.second;
+  const pct = Math.round(correct / total * 100);
+  document.getElementById('final-score').textContent =
+    correct + ' / ' + total + ' correct (' + pct + '%) — ' +
+    score.first + ' on 1st try, ' + score.second + ' on 2nd, ' +
+    score.other + ' on 3rd–5th, ' + score.failed + ' missed';
+  document.getElementById('overlay').classList.add('visible');
+}
+
+// ── Start ──────────────────────────────────────────────────────────────────
+startGame();
+</script>
+</body>
+</html>
